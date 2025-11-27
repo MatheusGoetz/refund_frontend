@@ -2,7 +2,7 @@ export type RefundItemProps = {
 	id: string;
 	username: string;
 	category: string;
-	amount: string;
+	amount: number;
 	categoryImg: string;
 };
 
