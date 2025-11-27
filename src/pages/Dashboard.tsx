@@ -3,6 +3,7 @@ import { Input } from "../components/input";
 import { useState } from "react";
 import { Button } from "../components/button";
 import { RefundItem } from "../components/refundItem";
+import { formatCurrency } from "../utils/formtCurrency";
 
 import searchSvg from "../assets/search.svg";
 import { CATEGORIES } from "../utils/categories";
@@ -11,7 +12,7 @@ const REFUND_EXEMPLE = {
 	id: "123",
 	username: "Matheus",
 	category: "Transporte",
-	amount: "34,50",
+	amount: formatCurrency(34.5),
 	categoryImg: CATEGORIES["transport"].icon,
 };
 
@@ -42,7 +43,7 @@ export function Dashboard() {
 				</Button>
 			</form>
 
-			<div>
+			<div className="mt-6 flex flex-col gap-4 max-h-[342px] overflow-y-scroll">
 				<RefundItem data={REFUND_EXEMPLE} />
 			</div>
 		</div>
