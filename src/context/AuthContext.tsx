@@ -1,10 +1,59 @@
-import { createContext } from "react";
+import { createContext, type ReactNode } from "react";
 
-export const AuthContext = createContext({});
+import { useState, useEffect } from "react";
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+type AuthContext = {
+	isLoading: boolean;
+	session: null | UserAPIResponse;
+	save: (data: UserAPIResponse) => void;
+	remove: () => void;
+};
+
+const LOCAL_STORAGE_KEY = "@refund";
+
+export const AuthContext = createContext({} as AuthContext);
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+	const [session, setSession] = useState<null | UserAPIResponse>(null);
+	const [isLoading, setIsLoading] = useState(true);
+
+	function save(data: UserAPIResponse) {
+		localStorage.setItem(
+			`${LOCAL_STORAGE_KEY}:user`,
+			JSON.stringify(data.userWithoutPassword),
+		);
+		localStorage.setItem(`${LOCAL_STORAGE_KEY}:token`, data.token);
+		setSession(data);
+	}
+
+	function remove() {
+		setSession(null);
+		localStorage.removeItem(`${LOCAL_STORAGE_KEY}:user`);
+		localStorage.removeItem(`${LOCAL_STORAGE_KEY}:token`);
+
+		window.location.assign("/");
+	}
+
+	function loadUser() {
+		const user = localStorage.getItem(`${LOCAL_STORAGE_KEY}:user`);
+		const token = localStorage.getItem(`${LOCAL_STORAGE_KEY}:token`);
+
+		if (token && user) {
+			setSession({
+				token,
+				userWithoutPassword: JSON.parse(user),
+			});
+		}
+
+		setIsLoading(false);
+	}
+
+	useEffect(() => {
+		loadUser();
+	}, []);
+
 	return (
-		<AuthContext.Provider value={{ name: "Matheus" }}>
+		<AuthContext.Provider value={{ session, save, isLoading, remove }}>
 			{children}
 		</AuthContext.Provider>
 	);
