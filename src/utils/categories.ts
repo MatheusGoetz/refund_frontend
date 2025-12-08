@@ -2,7 +2,7 @@ import foodSvg from "../assets/food.svg";
 import othersSvg from "../assets/others.svg";
 import servicesSvg from "../assets/services.svg";
 import transportSvg from "../assets/transport.svg";
-import accommodationSvg from "../assets/accommodation.svg";
+import accomodationSvg from "../assets/accommodation.svg";
 
 export const CATEGORIES = {
 	food: {
@@ -21,9 +21,9 @@ export const CATEGORIES = {
 		name: "Transporte",
 		icon: transportSvg,
 	},
-	accommodation: {
+	accomodation: {
 		name: "Hospedagem",
-		icon: accommodationSvg,
+		icon: accomodationSvg,
 	},
 };
 
